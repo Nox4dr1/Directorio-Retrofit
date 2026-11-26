@@ -71,4 +71,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     // ViewModel dentro de Compose: viewModel()
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.0")
+    // Imágenes desde una URL (la foto de cada usuario)
+    implementation("io.coil-kt:coil-compose:2.7.0")
 }
