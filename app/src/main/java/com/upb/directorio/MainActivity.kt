@@ -1,5 +1,6 @@
 package com.upb.directorio
 
+import com.upb.directorio.ui.form.NuevoUsuarioScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -26,18 +27,28 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     // null = se ve la lista; un número = se ve el detalle de ese usuario
                     var idSeleccionado by rememberSaveable { mutableStateOf<Int?>(null) }
+                    // true = se ve el formulario para crear
+                    var creando by rememberSaveable { mutableStateOf(false) }
                     val id = idSeleccionado
-                    if (id == null) {
-                        ListaUsuariosScreen(
+                    val modificador = Modifier.padding(innerPadding)
+
+                    when {
+                        creando -> {
+                            BackHandler { creando = false }
+                            NuevoUsuarioScreen(onVolver = { creando = false }, modifier = modificador)
+                        }
+                        id != null -> {
+                            BackHandler { idSeleccionado = null }
+                            DetalleUsuarioScreen(
+                                id = id,
+                                onVolver = { idSeleccionado = null },
+                                modifier = modificador
+                            )
+                        }
+                        else -> ListaUsuariosScreen(
                             onUsuarioClick = { idSeleccionado = it },
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                    } else {
-                        BackHandler { idSeleccionado = null } // botón atrás del teléfono
-                        DetalleUsuarioScreen(
-                            id = id,
-                            onVolver = { idSeleccionado = null },
-                            modifier = Modifier.padding(innerPadding)
+                            onAgregarClick = { creando = true },
+                            modifier = modificador
                         )
                     }
                 }

@@ -32,9 +32,11 @@ import com.upb.directorio.model.Usuario
 import com.upb.directorio.ui.components.MensajeDeError
 
 /** Lista paginada de usuarios. Solo dibuja el estado y avisa de los clics. */
+/** Lista paginada de usuarios. Solo dibuja el estado y avisa de los clics. */
 @Composable
 fun ListaUsuariosScreen(
     onUsuarioClick: (Int) -> Unit,
+    onAgregarClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ListaUsuariosViewModel = viewModel()
 ) {
@@ -42,11 +44,14 @@ fun ListaUsuariosScreen(
     val error = estado.error
 
     Column(modifier.fillMaxSize()) {
-        Text(
-            "Directorio",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(16.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Directorio", style = MaterialTheme.typography.headlineMedium)
+            Button(onClick = onAgregarClick) { Text("+ Agregar") }
+        }
         when {
             estado.cargando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
@@ -82,7 +87,6 @@ fun ListaUsuariosScreen(
         }
     }
 }
-
 /** Una fila: foto redonda, nombre y correo. */
 @Composable
 private fun FilaUsuario(usuario: Usuario, onClick: () -> Unit) {

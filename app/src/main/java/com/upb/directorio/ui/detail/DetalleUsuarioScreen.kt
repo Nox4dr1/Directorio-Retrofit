@@ -1,5 +1,8 @@
 package com.upb.directorio.ui.detail
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import com.upb.directorio.ui.form.AccionesUsuario
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,7 +45,7 @@ fun DetalleUsuarioScreen(
     val usuario = estado.usuario
 
     Column(
-        modifier.fillMaxSize().padding(16.dp),
+        modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(Modifier.fillMaxWidth()) {
@@ -62,6 +65,8 @@ fun DetalleUsuarioScreen(
                 Text(usuario!!.nombreCompleto, style = MaterialTheme.typography.headlineSmall)
                 Text(usuario!!.email, style = MaterialTheme.typography.bodyLarge)
                 Text("ID: ${usuario!!.id}", style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.height(24.dp))
+                AccionesUsuario(id = usuario!!.id)
             }
         }
     }
