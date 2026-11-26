@@ -1,5 +1,6 @@
 package com.upb.directorio.data
 
+import com.upb.directorio.data.remote.UsuarioRequest
 import com.upb.directorio.BuildConfig
 import com.upb.directorio.data.remote.ReqresApiService
 import com.upb.directorio.data.remote.RetrofitClient
@@ -25,6 +26,23 @@ class UsuarioRepository(
 
     suspend fun obtenerUsuario(id: Int): Resultado<Usuario> = llamar {
         api.obtenerUsuario(apiKey, id).data.aUsuario()
+    }
+
+    /** POST: devuelve el id que asignó el servidor. */
+    suspend fun crearUsuario(nombre: String, trabajo: String): Resultado<String> = llamar {
+        api.crearUsuario(apiKey, UsuarioRequest(nombre, trabajo)).id
+    }
+
+    /** PUT: devuelve la fecha en que se actualizó. */
+    suspend fun editarUsuario(id: Int, nombre: String, trabajo: String): Resultado<String> = llamar {
+        api.editarUsuario(apiKey, id, UsuarioRequest(nombre, trabajo)).editadoEn
+    }
+
+    /** DELETE: no trae cuerpo; devuelve el código HTTP (204 = borrado). */
+    suspend fun eliminarUsuario(id: Int): Resultado<Int> = llamar {
+        val respuesta = api.eliminarUsuario(apiKey, id)
+        if (!respuesta.isSuccessful) throw HttpException(respuesta)
+        respuesta.code()
     }
 
     /** Ejecuta la llamada y convierte cualquier excepción en Resultado.Error. */

@@ -21,3 +21,20 @@ data class UsuarioDto(
     @SerializedName("last_name") val apellido: String,
     val avatar: String?
 )
+// Lo que se ENVÍA en POST y PUT (el cuerpo de la petición).
+// @SerializedName también sirve al enviar: "nombre" viaja como "name".
+data class UsuarioRequest(
+    @SerializedName("name") val nombre: String,
+    @SerializedName("job") val trabajo: String
+)
+
+// Lo que se RECIBE al crear (POST): el servidor asigna id y fecha.
+data class UsuarioCreadoResponse(
+    val id: String,                                   // ReqRes manda el id como texto
+    @SerializedName("createdAt") val creadoEn: String
+)
+
+// Lo que se RECIBE al editar (PUT).
+data class UsuarioEditadoResponse(
+    @SerializedName("updatedAt") val editadoEn: String
+)
