@@ -7,3 +7,9 @@ data class Usuario(
     val email: String,
     val fotoUrl: String?
 )
+/** Una página de la lista: los usuarios y en qué página estamos. */
+data class PaginaUsuarios(
+    val usuarios: List<Usuario>,
+    val pagina: Int,
+    val totalPaginas: Int
+)

@@ -1,0 +1,24 @@
+package com.upb.directorio.data.remote
+
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Path
+import retrofit2.http.Query
+
+/** Endpoints de ReqRes. Todas las peticiones llevan la API key en la cabecera x-api-key. */
+interface ReqresApiService {
+
+    /** Lista paginada: /api/users?page=2 */
+    @GET("users")
+    suspend fun obtenerUsuarios(
+        @Header("x-api-key") apiKey: String,
+        @Query("page") pagina: Int
+    ): UsuariosResponse
+
+    /** Detalle: /api/users/2 */
+    @GET("users/{id}")
+    suspend fun obtenerUsuario(
+        @Header("x-api-key") apiKey: String,
+        @Path("id") id: Int
+    ): UsuarioResponse
+}
